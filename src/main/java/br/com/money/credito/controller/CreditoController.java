@@ -29,7 +29,7 @@ public class CreditoController {
     }
 
     @GetMapping("/{nome}/{valorPedido}")
-    public ResponseEntity<CreditoResponseTO> verificarDisponibilidadeCredito(@PathVariable String nome, @PathVariable String valorPedido) {
+    public ResponseEntity<CreditoResponseTO> consultarDisponibilidadeCredito(@PathVariable String nome, @PathVariable String valorPedido) {
         CreditoResponseTO responseTO = creditoService.consultarDisponibilidade(nome, new BigDecimal(valorPedido));
         return ResponseEntity.ok().body(responseTO);
     }
