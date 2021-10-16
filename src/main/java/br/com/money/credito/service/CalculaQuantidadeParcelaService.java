@@ -13,7 +13,7 @@ public class CalculaQuantidadeParcelaService {
     public Integer calcularQuantidadeParcelas(CreditoResponseTO creditoResponseTO) {
         BigDecimal valorEmprestado = creditoResponseTO.getValorEmprestado();
         BigDecimal valorParcelas = creditoResponseTO.getValorParcela();
-        MathContext mathContext = new MathContext(2, RoundingMode.HALF_UP) ;
-        return valorParcelas.divide(valorEmprestado, mathContext).precision();
+        MathContext mathContext = new MathContext(2, RoundingMode.HALF_EVEN) ;
+        return valorEmprestado.divide(valorParcelas, mathContext).intValueExact();
     }
 }

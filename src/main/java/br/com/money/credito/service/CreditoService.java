@@ -41,7 +41,7 @@ public class CreditoService {
                 creditoResponseTO.setNome(response.getNome());
                 creditoResponseTO.setSalario(response.getSalario());
                 creditoResponseTO.setValorPedido(valorPedido);
-                calcularValorDisponivelEmprestimo(response, creditoResponseTO, valorPedido);
+                calcularValorDisponivelEmprestimo(response, creditoResponseTO);
                 valorParcelaService.calcularValorParcela(creditoResponseTO);
                 creditoResponseTO.setParcelas(parcelaService.calcularQuantidadeParcelas(creditoResponseTO));
                 break;
@@ -56,18 +56,8 @@ public class CreditoService {
         return gson.fromJson(jsonObjects, new TypeToken<List<Response>>(){}.getType());
     }
 
-    private void calcularValorDisponivelEmprestimo(Response response, CreditoResponseTO creditoResponseTO, BigDecimal valorPedido) {
-        this.creditoPorIdadeService.calcularCreditoPorIdade80Anos(response, creditoResponseTO);
-        this.creditoPorIdadeService.calcularCreditoPorIdade50Anos(response, creditoResponseTO);
-        this.creditoPorIdadeService.calcularCreditoPorIdade30Anos(response, creditoResponseTO);
-        this.creditoPorIdadeService.calcularCreditoPorIdade20Anos(response, creditoResponseTO);
-
-        if (valorPedido.compareTo(creditoResponseTO.getValorEmprestado()) < 0) {
-            creditoResponseTO.setValorEmprestado(valorPedido);
-
-        } else if (valorPedido.compareTo(creditoResponseTO.getValorEmprestado()) >= 0) {
-            creditoResponseTO.setValorEmprestado(creditoResponseTO.getValorEmprestado());
-        }
+    private void calcularValorDisponivelEmprestimo(Response response, CreditoResponseTO creditoResponseTO) {
+        this.creditoPorIdadeService.calcularCreditoPorIdade(response, creditoResponseTO);
     }
 
     private void validarValorDeEntrada(BigDecimal valorPedido) {
