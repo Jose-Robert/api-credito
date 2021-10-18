@@ -35,10 +35,6 @@ public class ValidacaoExceptionHandler extends ResponseEntityExceptionHandler {
         return handlerException(exception, HttpStatus.BAD_REQUEST, request, "validacao.campo-valores-negativos", args);
     }
 
-    private ResponseEntity<Object> handlerException(Exception exception, HttpStatus status, WebRequest request, String key) {
-        return handlerException(exception, status, request, key, null);
-    }
-
     private ResponseEntity<Object> handlerException(Exception exception, HttpStatus status, WebRequest request, String key, Object[] args) {
         ApiError<List<String>> response = new ApiError<>(List.of((messageService.getMessage(key, args))));
         response.setStatusCode(status.value());
