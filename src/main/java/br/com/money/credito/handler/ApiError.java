@@ -16,6 +16,7 @@ public class ApiError<T> implements Serializable {
 
     private List<String> errors = new ArrayList<>();
     private String dataHora;
+    private int statusCode;
 
     public ApiError() {
     }
