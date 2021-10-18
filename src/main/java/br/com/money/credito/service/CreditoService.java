@@ -62,11 +62,11 @@ public class CreditoService {
 
     private void validarValorDeEntrada(BigDecimal valorPedido) {
         if (valorPedido.compareTo(BigDecimal.ZERO) == 0) {
-            throw new CampoValorZeradoException("Valor Pedido");
+            throw new CampoValorZeradoException();
         }
 
         if (valorPedido.compareTo(BigDecimal.valueOf(-1)) <= 0) {
-            throw new CampoValorNegativoException("Valor Pedido");
+            throw new CampoValorNegativoException();
         }
     }
 
