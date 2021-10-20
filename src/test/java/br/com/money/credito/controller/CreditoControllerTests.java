@@ -24,8 +24,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 class CreditoControllerTests {
 
-    public static final String BASE_URL = "/credito";
-
     @Autowired
     private RestConsumerService service;
 
@@ -49,7 +47,7 @@ class CreditoControllerTests {
         when(service.getListJsonObjects()).thenReturn("");
 
         MvcResult mvcResult = mockMvc.perform(
-                get(BASE_URL)
+                get("/")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
@@ -64,7 +62,7 @@ class CreditoControllerTests {
         String valorPedido = "5000";
 
         MvcResult mvcResult = mockMvc.perform(
-                get(BASE_URL + "/" + nome + "/" + valorPedido)
+                get("/" + nome + "/" + valorPedido)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
                 .andReturn();
@@ -80,7 +78,7 @@ class CreditoControllerTests {
         String valorPedido = "0";
 
         MvcResult mvcResult = mockMvc.perform(
-                get(BASE_URL + "/" + nome + "/" + valorPedido)
+                get("/" + nome + "/" + valorPedido)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn();

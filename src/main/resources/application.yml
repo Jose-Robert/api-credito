@@ -1,7 +1,7 @@
 server:
   port: ${PORT:8080}
   servlet:
-    context-path: /api/v1
+    context-path: /api/v1/credito
 
 url:
   mocky:
@@ -40,7 +40,9 @@ info:
     description: '@project.description@'
 
 spring:
+  application:
+    name: API credito
   boot:
     admin:
       client:
-        url: http://localhost:8081
+        url: http://localhost:8090
