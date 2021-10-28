@@ -15,7 +15,7 @@
     <description>Projeto consultiva API disponibilidade de credíto</description>
     <properties>
         <java.version>11</java.version>
-        <springfox-version>3.0.0</springfox-version>
+        <springfox-version>2.9.2</springfox-version>
         <arguments>-DskipTests=true -Dmaven.javadoc.skip=true</arguments>
     </properties>
     <dependencies>

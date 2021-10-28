@@ -2,6 +2,7 @@ package br.com.money.credito.handler;
 
 import br.com.money.credito.exception.CampoValorNegativoException;
 import br.com.money.credito.exception.CampoValorZeradoException;
+import br.com.money.credito.exception.ObjectNotFoundException;
 import br.com.money.credito.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
@@ -33,6 +34,12 @@ public class ValidacaoExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handlerCampoValorNegativoException(CampoValorNegativoException exception, WebRequest request) {
         Object[] args = {exception.getMessage()};
         return handlerException(exception, HttpStatus.BAD_REQUEST, request, "validacao.campo-valores-negativos", args);
+    }
+
+    @ExceptionHandler({ObjectNotFoundException.class})
+    public ResponseEntity<Object> handlerObjectNotFoundException(ObjectNotFoundException exception, WebRequest request) {
+        Object[] args = {exception.getMessage()};
+        return handlerException(exception, HttpStatus.NOT_FOUND, request, "validacao.objeto-nao-encontrado", args);
     }
 
     private ResponseEntity<Object> handlerException(Exception exception, HttpStatus status, WebRequest request, String key, Object[] args) {

@@ -2,6 +2,7 @@ package br.com.money.credito.service;
 
 import br.com.money.credito.exception.CampoValorNegativoException;
 import br.com.money.credito.exception.CampoValorZeradoException;
+import br.com.money.credito.exception.ObjectNotFoundException;
 import br.com.money.credito.model.CreditoResponseTO;
 import br.com.money.credito.model.Response;
 import com.google.gson.Gson;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -33,20 +35,21 @@ public class CreditoService {
     public CreditoResponseTO consultarDisponibilidade(String nome, BigDecimal valorPedido) {
 
         validarValorDeEntrada(valorPedido);
-        List<Response> responseList = this.getResponseList();
+        Optional<Response> responseOptional = getResponseList().stream()
+                .filter(response -> response.getNome().equalsIgnoreCase(nome)).findFirst();
+
+        if (responseOptional.isEmpty()) {
+           throw new ObjectNotFoundException();
+        }
 
         CreditoResponseTO creditoResponseTO = new CreditoResponseTO();
-        for (Response response : responseList) {
-            if (response.getNome().equalsIgnoreCase(nome)) {
-                creditoResponseTO.setNome(response.getNome());
-                creditoResponseTO.setSalario(response.getSalario());
-                creditoResponseTO.setValorPedido(valorPedido);
-                calcularValorDisponivelEmprestimo(response, creditoResponseTO);
-                valorParcelaService.calcularValorParcela(creditoResponseTO);
-                creditoResponseTO.setParcelas(parcelaService.calcularQuantidadeParcelas(creditoResponseTO));
-                break;
-            }
-        }
+        creditoResponseTO.setNome(responseOptional.get().getNome());
+        creditoResponseTO.setSalario(responseOptional.get().getSalario());
+        creditoResponseTO.setValorPedido(valorPedido);
+        calcularValorDisponivelEmprestimo(responseOptional.get(), creditoResponseTO);
+        valorParcelaService.calcularValorParcela(creditoResponseTO);
+        creditoResponseTO.setParcelas(parcelaService.calcularQuantidadeParcelas(creditoResponseTO));
+
         return creditoResponseTO;
     }
 

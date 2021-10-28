@@ -14,7 +14,7 @@ public class CalculaCreditoPorIdadeService {
     public void calcularCreditoPorIdade(Response response, CreditoResponseTO creditoResponseTO) {
         Integer idade = response.getIdade();
 
-        if (idade > IDADE_VINTE && idade < IDADE_TRINTA) {
+        if (idade >= IDADE_VINTE && idade < IDADE_TRINTA) {
             BigDecimal valorEmprestado = response.getSalario();
             creditoResponseTO.setValorEmprestado(valorEmprestado);
             return;
