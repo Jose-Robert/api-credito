@@ -3,6 +3,7 @@ package br.com.money.credito.service;
 
 import br.com.money.credito.exception.CampoValorNegativoException;
 import br.com.money.credito.exception.CampoValorZeradoException;
+import br.com.money.credito.exception.ObjectNotFoundException;
 import br.com.money.credito.model.CreditoResponseTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -70,5 +71,15 @@ class CreditoServiceTests {
         });
 
         assertEquals(CampoValorNegativoException.class, exception.getClass());
+    }
+
+    @Test
+    @DisplayName("Deve verificar caso uma pessoa não seja encontrada pelo nome")
+    void deveVerificarCasoNaoTenhaEncontrado() {
+        try {
+            service.consultarDisponibilidade("José Robert", BigDecimal.valueOf(8000));
+        } catch (ObjectNotFoundException exception) {
+            assertEquals(ObjectNotFoundException.class, exception.getClass());
+        }
     }
 }
